@@ -220,3 +220,43 @@ def print_clustered_papers(n_clusters: int, clustering, data: np.array, path: st
             print('--------------------------')
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     print_eval_scores(data, cluster_labels, n_clusters)
+
+
+def write_clustered_papers(n_clusters: int, clustering, data: np.array, path: str):
+    """
+    performs clustering and writes the result as a pandas dataframe
+    :param n_clusters:
+    :param clustering:
+    :param data:
+    :param path:
+    :return:
+    """
+    if not isinstance(clustering, np.ndarray):
+        cluster_labels = clustering.fit_predict(data)
+    else:
+        cluster_labels = clustering
+
+    cluster_dict = {}
+    for i, label in enumerate(cluster_labels):
+        if label not in cluster_dict:
+            cluster_dict[label] = []
+        cluster_dict[label].append(i)
+
+    df = pd.read_csv(path, encoding='utf-8')
+    titles = df['title']
+    keywords = df['keywords']
+
+    clustered_texts = [[] for _ in range(n_clusters)]
+    for c_i in range(n_clusters):
+        for i in cluster_dict.get(c_i, []):
+            text = titles[i] + '\n' + keywords[i]
+            clustered_texts[c_i].append(text)
+
+    max_length = max(len(texts) for texts in clustered_texts)
+    for texts in clustered_texts:
+        texts.extend([''] * (max_length - len(texts)))
+    # Create DataFrame
+    df_clustered = pd.DataFrame({f'Cluster {c_i}': clustered_texts[c_i] for c_i in range(n_clusters)})
+
+    # Write DataFrame to CSV
+    df_clustered.to_csv(path, index=False)
