@@ -2,12 +2,8 @@ import pickle as pk
 from matplotlib import pyplot as plt
 from sklearn.cluster import SpectralClustering
 import utils
-import pandas as pd
-
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.metrics import silhouette_samples, silhouette_score
+
 
 num_runs = 1
 n_clusters = 5
@@ -40,38 +36,6 @@ reduced = utils.UMAP_reduce(data=embeddings, rdims=20)
             #     cluster_dict[label] = []
             # cluster_dict[label].append(i)
         # utils.print_eval_scores(reduced, cluster_labels, c_i)
-
-def print_clustered_papers(n_clusters: int, clustering, data: np.array, path: str):
-    if not isinstance(clustering, np.ndarray):
-        cluster_labels = clustering.fit_predict(data)
-    else:
-        cluster_labels = clustering
-
-    cluster_dict = {}
-    for i, label in enumerate(cluster_labels):
-        if label not in cluster_dict:
-            cluster_dict[label] = []
-        cluster_dict[label].append(i)
-
-    df = pd.read_csv(path, encoding='utf-8')
-    titles = df['title']
-    keywords = df['keywords']
-
-    clustered_texts = [[] for _ in range(n_clusters)]
-    for c_i in range(n_clusters):
-        for i in cluster_dict.get(c_i, []):
-            text = titles[i] + '\n' + keywords[i]
-            clustered_texts[c_i].append(text)
-
-    max_length = max(len(texts) for texts in clustered_texts)
-    for texts in clustered_texts:
-        texts.extend([''] * (max_length - len(texts)))
-    # Create DataFrame
-    df_clustered = pd.DataFrame({f'Cluster {c_i}': clustered_texts[c_i] for c_i in range(n_clusters)})
-
-    # Write DataFrame to CSV
-    df_clustered.to_csv('results\spectral5_abs_title.csv', index=False)
-
 
 for _ in range(num_runs):
     clustering = SpectralClustering(n_clusters=n_clusters, affinity='rbf')
