@@ -14,7 +14,7 @@ Here you can view the presentation [slides](https://docs.google.com/presentation
 
 <p>
   <img src="https://github.com/user-attachments/assets/07fbb93d-8d0e-4ef9-9818-589526a1d730" alt="Figure_1" width="400" height="300">
-  <img src="https://github.com/user-attachments/assets/e3a445e7-4571-4765-9251-4d2304f65f91" alt="Figure_2" width="600" height="280" style="position: relative; top: -30px;">
+  <img src="https://github.com/user-attachments/assets/e3a445e7-4571-4765-9251-4d2304f65f91" alt="Figure_2" width="600" height="200" style="position: relative; top: -30px;">
 </p>
 
 
