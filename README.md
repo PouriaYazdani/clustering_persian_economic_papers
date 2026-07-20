@@ -18,3 +18,5 @@ Here you can view the presentation [slides](https://docs.google.com/presentation
 </p>
 
 
+---
+Project completed as the final project for the Fundamentals of Data Mining course during my BSc of computer engineering degree (Spring 2023).
